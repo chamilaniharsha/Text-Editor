@@ -67,6 +67,21 @@
             <input type="color" class="color-picker" id="font-color-picker" onchange="changeFontColor(this.value)">
             <img src="Resource/fontcolor.png" width="24" height="20" >
         </label>
+        <button onclick="changeTextAlignment('left')" class="button"> 
+            <img src="Resource/left.png" width="15" height="15"> 
+        </button>
+
+        <button onclick="changeTextAlignment('center')" class="button"> 
+            <img src="Resource/center.png" width="15" height="15"> 
+        </button>
+
+        <button onclick="changeTextAlignment('right')" class="button"> 
+            <img src="Resource/right.png" width="15" height="15"> 
+        </button>
+
+        <button onclick="changeTextAlignment('justify')" class="button"> 
+            <img src="Resource/justify.png" width="15" height="15"> 
+        </button>
 
 
 
@@ -99,6 +114,23 @@
         function changeFontColor(selectedColor) {
             document.execCommand('foreColor', false, selectedColor);
             saveState(); 
+        }
+        function changeTextAlignment(align) {
+            const validAlignments = ['left', 'center', 'right', 'justify'];
+
+            if (validAlignments.includes(align)) {
+                const editor = document.getElementById('editor-text');
+                document.execCommand('styleWithCSS', false, true); 
+                document.execCommand('justify' + align.charAt(0).toUpperCase() + align.slice(1), false, null); 
+                if (align === 'justify') {
+                    document.execCommand('justifyFull');
+                } else {
+                    editor.style.textAlign = align;
+                }
+                saveState();  
+            } else {
+                console.error('Invalid alignment value provided.');
+            }
         }
 
 
